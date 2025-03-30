@@ -1,4 +1,5 @@
 import 'package:finder/core/classes/cache_helper.dart';
+import 'package:finder/core/di/di.dart';
 import 'package:finder/core/utils/app_router.dart';
 import 'package:finder/features/language/cubit/language_cubit.dart';
 import 'package:finder/features/language/cubit/language_states.dart';
@@ -10,8 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
-  // await CacheHelper.init();
-
+  await CacheHelper.init();
+  setUp();
   runApp(const Finder());
 }
 
@@ -22,7 +23,7 @@ class Finder extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider(create: (context) => getIt<AuthCubit>()),
+        BlocProvider(create: (context) => getIt<LanguageCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(429, 932),
