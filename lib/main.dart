@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
-  await CacheHelper.init();
+  // await CacheHelper.init();
 
   runApp(const Finder());
 }
