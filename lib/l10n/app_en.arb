@@ -1,3 +1,6 @@
 {
-  "appName":"Finder"
+  "appName":"Finder",
+  "next":"next",
+  "getStarted":"Get Started",
+  "skip":"Skip"
 }

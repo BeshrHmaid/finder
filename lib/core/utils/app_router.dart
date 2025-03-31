@@ -1,3 +1,4 @@
+import 'package:finder/features/onboarding/screens/root_onboarding.dart';
 import 'package:go_router/go_router.dart';
 import 'package:finder/core/ui/screens/splash_screen.dart';
 
@@ -14,6 +15,10 @@ abstract class AppRouter {
       GoRoute(
         path: kSplash,
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: kOnBoard,
+        builder: (context, state) => const RootOnBoardingScreen(),
       ),
       
       // GoRoute(

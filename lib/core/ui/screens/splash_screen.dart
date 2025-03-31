@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:finder/core/constant/app_lottie/app_lottie.dart';
 import 'package:finder/translations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:finder/core/classes/cache_helper.dart';
@@ -76,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 300,
                 height: 300,
               ),
-              const SizedBox(height: 20),
+               SizedBox(height: AppPaddingSize.padding_20),
               Text(
                 AppLocalizations.of(context)!.appName,
                 style: AppTextStyle.getBoldStyle(
