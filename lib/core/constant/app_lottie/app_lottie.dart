@@ -1,3 +1,3 @@
 const lottieBaseUrl = 'assets/lottie';
 
-const loadingLottie = '$lottieBaseUrl/loading.json';
+const splashLottie = '$lottieBaseUrl/splash_lottie.json';

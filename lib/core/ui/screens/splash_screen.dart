@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:finder/core/constant/app_lottie/app_lottie.dart';
+import 'package:finder/translations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +12,7 @@ import 'package:finder/core/constant/end_points/cashe_helper_constant.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/utils/app_router.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,14 +22,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Color _backgroundColor = AppColors.primary;
   @override
   void initState() {
     super.initState();
+    _animateBackground();
     if (!CacheHelper.box.containsKey(isFirstTime)) {
       CacheHelper.setFirstTime(true);
     }
+  }
 
-    Timer(const Duration(seconds: 1, milliseconds: 3), () async {
+  void _animateBackground() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() {
+          _backgroundColor = AppColors.lightSecondaryColor;
+        });
+      }
+    });
+
+    Timer(const Duration(seconds: 5, milliseconds: 3), () async {
       if (CacheHelper.token?.isEmpty ?? true) {
         if (CacheHelper.firstTime == true) {
           GoRouter.of(context).go(AppRouter.kOnBoard);
@@ -41,23 +56,38 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          // const Expanded(child: SketchLogo()),
-          const CupertinoActivityIndicator(),
-          Text(
-            "Sketch",
-            style: AppTextStyle.getBoldStyle(
-                color: AppColors.black1c, fontSize: AppFontSize.size_20),
+    return Scaffold(
+      body: AnimatedContainer(
+        duration: const Duration(seconds: 5),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [_backgroundColor, AppColors.primary],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          const SizedBox(
-            height: AppPaddingSize.padding_50,
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset(
+                splashLottie,
+                width: 300,
+                height: 300,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                AppLocalizations.of(context)!.appName,
+                style: AppTextStyle.getBoldStyle(
+                  color: Colors.white,
+                  fontSize: AppFontSize.size_24,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-    ));
+    );
   }
 }
