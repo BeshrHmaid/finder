@@ -1,6 +1,20 @@
 {
-  "appName":"Finder",
-  "next":"next",
-  "getStarted":"Get Started",
-  "skip":"Skip"
+  "appName": "Finder",
+  "next": "Next",
+  "getStarted": "Get Started",
+  "skip": "Skip",
+  "or": "Or",
+  "continueWithGoogle": "Continue with Google",
+  "username": "Username",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "login": "Login",
+  "loginHere": "Login Here",
+  "alreadyHaveAccount": "Already have an account?",
+  "registerHere": "Register Here",
+  "newUser": "New User?",
+  "forgotPassword": "Forgot Password?",
+  "register": "Register"
+
 }

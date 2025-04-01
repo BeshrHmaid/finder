@@ -44,7 +44,7 @@ class BaseHensStateScreen extends StatelessWidget {
               Text(description,
                   textAlign: TextAlign.center,
                   style: AppTextStyle.getBoldStyle(
-                      color: AppColors.black14, fontSize: AppFontSize.size_16)),
+                      color: Theme.of(context).colorScheme.themedBlack, fontSize: AppFontSize.size_16)),
           const SizedBox(height: AppPaddingSize.padding_90),
           buttonWidget ??
               Padding(

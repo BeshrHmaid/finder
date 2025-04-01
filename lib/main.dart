@@ -1,6 +1,7 @@
 import 'package:finder/core/classes/cache_helper.dart';
 import 'package:finder/core/di/di.dart';
 import 'package:finder/core/utils/app_router.dart';
+import 'package:finder/features/auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:finder/features/language/cubit/language_cubit.dart';
 import 'package:finder/features/language/cubit/language_states.dart';
 import 'package:finder/features/onboarding/cubit/onboarding_cubit.dart';
@@ -25,10 +26,10 @@ class Finder extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<LanguageCubit>()),
-              BlocProvider(create: (context) => getIt<OnBoardingCubit>()),
+        BlocProvider(create: (context) => getIt<OnBoardingCubit>()),
+                BlocProvider(create: (context) => getIt<AuthCubit>()),
 
       ],
-
       child: ScreenUtilInit(
         designSize: const Size(429, 932),
         minTextAdapt: true,

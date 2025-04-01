@@ -41,7 +41,7 @@ class BackWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: AppTextStyle.getMediumStyle(
-                      color: AppColors.black1c, fontSize: AppFontSize.size_26),
+                      color: Theme.of(context).colorScheme.themedBlack, fontSize: AppFontSize.size_26),
                 ),
               ),
          const Spacer(),

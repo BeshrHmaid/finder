@@ -1,3 +1,4 @@
+import 'package:finder/features/auth/data/model/login_model/login_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:finder/core/constant/end_points/cashe_helper_constant.dart';
 
@@ -33,13 +34,13 @@ class CacheHelper {
   static bool get firstTime => box.get(isFirstTime) ?? true;
   static int? get userID => box.get(userId);
 
-  // static Future<void> setUserInfo(LoginModel? value) =>
-  //     box.put(userModel, value);
+  static Future<void> setUserInfo(LoginModel? value) =>
+      box.put(userModel, value);
 
-  // static LoginModel? get userInfo {
-  //   if (!box.containsKey(userModel)) return null;
-  //   return box.get(userModel);
-  // }
+  static LoginModel? get userInfo {
+    if (!box.containsKey(userModel)) return null;
+    return box.get(userModel);
+  }
 
   static void deleteCertificates() {
     setToken(null);
