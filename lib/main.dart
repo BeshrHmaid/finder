@@ -5,7 +5,10 @@ import 'package:finder/features/auth/presentation/manager/cubit/auth_cubit.dart'
 import 'package:finder/features/language/cubit/language_cubit.dart';
 import 'package:finder/features/language/cubit/language_states.dart';
 import 'package:finder/features/onboarding/cubit/onboarding_cubit.dart';
+import 'package:finder/features/root_navigation_view/data/cubit/root_page_cubit.dart';
+import 'package:finder/firebase_options.dart';
 import 'package:finder/translations.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,6 +16,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('firebase success');
+  } on Exception catch (e) {
+    print('firebase error $e');
+  }
   await CacheHelper.init();
   setUp();
   runApp(const Finder());
@@ -27,8 +40,8 @@ class Finder extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => getIt<LanguageCubit>()),
         BlocProvider(create: (context) => getIt<OnBoardingCubit>()),
-                BlocProvider(create: (context) => getIt<AuthCubit>()),
-
+        BlocProvider(create: (context) => getIt<RootPageCubit>()),
+        BlocProvider(create: (context) => getIt<AuthCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(429, 932),

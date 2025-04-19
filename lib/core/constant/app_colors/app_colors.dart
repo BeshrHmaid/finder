@@ -24,14 +24,10 @@ extension AppColors on ColorScheme {
       ? lightSecondaryColor
       : darkSubHeadingColor1;
 
-Color get themedWhite => brightness == Brightness.light
-      ? white
-      : black;
+  Color get themedWhite => brightness == Brightness.light ? white : black;
 
-Color get themedBlack => brightness == Brightness.light
-      ? black
-      : white;
-
+  Color get themedBlack => brightness == Brightness.light ? black : white;
+  static const Color backgroundColor = Color(0xff393937);
 
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);

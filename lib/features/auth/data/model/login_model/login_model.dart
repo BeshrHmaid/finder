@@ -1,5 +1,5 @@
-import 'package:hive/hive.dart';
 import 'package:finder/core/data_source/model.dart';
+import 'package:hive/hive.dart';
 
 import 'user.dart';
 

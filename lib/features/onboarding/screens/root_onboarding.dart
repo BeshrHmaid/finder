@@ -1,19 +1,18 @@
-import 'package:finder/core/constant/app_padding/app_padding.dart';
-import 'package:finder/core/ui/widgets/logo_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:finder/core/classes/cache_helper.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_images_icons/app_assets.dart';
+import 'package:finder/core/constant/app_padding/app_padding.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/ui/widgets/back_widget.dart';
 import 'package:finder/core/ui/widgets/custom_button.dart';
+import 'package:finder/core/ui/widgets/logo_widget.dart';
 import 'package:finder/core/utils/app_router.dart';
 import 'package:finder/features/onboarding/cubit/onboarding_cubit.dart';
 import 'package:finder/translations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../cubit/onboarding_state.dart';
 
@@ -57,12 +56,12 @@ class RootOnBoardingScreen extends StatelessWidget {
                           .previousPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeIn),
-                      titleWidget: LogoWidget(
+                      titleWidget: const LogoWidget(
                         height: AppPaddingSize.padding_100,
                         width: AppPaddingSize.padding_100,
                       )),
                 ),
-                Expanded(flex: 4, child: SizedBox()),
+                const Expanded(flex: 4, child: SizedBox()),
                 Expanded(flex: 2, child: _BottomSection()),
               ],
             ),

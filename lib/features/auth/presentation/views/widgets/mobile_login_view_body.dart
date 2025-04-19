@@ -1,31 +1,24 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_images_icons/app_assets.dart';
+import 'package:finder/core/constant/app_padding/app_padding.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
+import 'package:finder/core/ui/widgets/custom_button.dart';
 import 'package:finder/core/ui/widgets/custom_text_form_field.dart';
 import 'package:finder/core/ui/widgets/logo_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:finder/core/boilerplate/create_model/widgets/create_model.dart';
-import 'package:finder/core/classes/cache_helper.dart';
-import 'package:finder/core/constant/app_colors/app_colors.dart';
-import 'package:finder/core/constant/app_padding/app_padding.dart';
-import 'package:finder/core/ui/dialogs/dialogs.dart';
-import 'package:finder/core/ui/widgets/custom_button.dart';
 import 'package:finder/core/utils/app_router.dart';
 import 'package:finder/core/utils/app_validator.dart';
-import 'package:finder/features/auth/data/model/login_model/login_model.dart';
-import 'package:finder/features/auth/data/repository/auth_repository.dart';
-import 'package:finder/features/auth/domain/use_case/login_use_case.dart';
 import 'package:finder/features/auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:finder/features/auth/presentation/manager/cubit/auth_states.dart';
 import 'package:finder/features/auth/presentation/views/widgets/login_signup_alternative.dart';
 import 'package:finder/features/auth/presentation/views/widgets/social_login.dart';
 import 'package:finder/translations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class MobileLoginViewBody extends StatelessWidget {
   const MobileLoginViewBody({super.key});
@@ -47,10 +40,14 @@ class MobileLoginViewBody extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   SizedBox(height: 50.h,),
+                  SizedBox(
+                    height: 50.h,
+                  ),
                   const LogoWidget(),
-                   SizedBox(height: 20.h,),
-                 AnimatedTextKit(
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  AnimatedTextKit(
                     animatedTexts: [
                       ColorizeAnimatedText(
                         AppLocalizations.of(context)!.login,
@@ -63,10 +60,10 @@ class MobileLoginViewBody extends StatelessWidget {
                           Colors.green,
                           Colors.orange,
                         ],
-                        speed: Duration(seconds: 1),
+                        speed: const Duration(seconds: 1),
                       ),
                     ],
-                     pause: Duration(seconds: 0),
+                    pause: const Duration(seconds: 0),
                     repeatForever: false,
                     totalRepeatCount: 2,
                   ),
@@ -117,31 +114,36 @@ class MobileLoginViewBody extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  CreateModel(
-                    withValidation: true,
-                    onTap: () => (_formKey.currentState?.validate() ?? false),
-                    useCaseCallBack: (model) async {
-                      return await LoginUseCase(AuthRepository())
-                          .call(params: context.read<AuthCubit>().loginParams);
-                    },
-                    onError: (val) {
-                      Dialogs.showErrorSnackBar(
-                          message: val,
-                          context: context,
-                          typeSnackBar: AnimatedSnackBarType.error);
-                    },
-                    onSuccess: (LoginModel model) {
-                      CacheHelper.setToken(model.token);
-                      CacheHelper.setUserId(model.user!.id);
-                      CacheHelper.setUserInfo(model);
-                      CacheHelper.setBalance(model.user!.balance);
+                  // CreateModel(
+                  //   withValidation: true,
+                  //   onTap: () => (_formKey.currentState?.validate() ?? false),
+                  //   useCaseCallBack: (model) async {
+                  //     return await LoginUseCase(AuthRepository())
+                  //         .call(params: context.read<AuthCubit>().loginParams);
+                  //   },
+                  //   onError: (val) {
+                  //     Dialogs.showErrorSnackBar(
+                  //         message: val,
+                  //         context: context,
+                  //         typeSnackBar: AnimatedSnackBarType.error);
+                  //   },
+                  //   onSuccess: (LoginModel model) {
+                  //     CacheHelper.setToken(model.token);
+                  //     CacheHelper.setUserId(model.user!.id);
+                  //     CacheHelper.setUserInfo(model);
+                  //     CacheHelper.setBalance(model.user!.balance);
+                  //     GoRouter.of(context).go(AppRouter.kRootView);
+                  //   },
+                  //   child: CustomButton(
+                  //     text: AppLocalizations.of(context)!.login,
+                  //   ),
+                  // ),
+                  CustomButton(
+                    text: AppLocalizations.of(context)!.login,
+                    onPressed: () {
                       GoRouter.of(context).go(AppRouter.kRootView);
                     },
-                    child: CustomButton(
-                      text: AppLocalizations.of(context)!.login,
-                    ),
                   ),
-                  
                   // const CustomOrDivider(),
                   const SizedBox(
                     height: 22,

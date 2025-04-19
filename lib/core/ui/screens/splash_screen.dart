@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:finder/core/constant/app_lottie/app_lottie.dart';
-import 'package:finder/translations.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:finder/core/classes/cache_helper.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
+import 'package:finder/core/constant/app_lottie/app_lottie.dart';
 import 'package:finder/core/constant/app_padding/app_padding.dart';
 import 'package:finder/core/constant/end_points/cashe_helper_constant.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/utils/app_router.dart';
+import 'package:finder/translations.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 300,
                 height: 300,
               ),
-               SizedBox(height: AppPaddingSize.padding_20),
+              const SizedBox(height: AppPaddingSize.padding_20),
               Text(
                 AppLocalizations.of(context)!.appName,
                 style: AppTextStyle.getBoldStyle(
