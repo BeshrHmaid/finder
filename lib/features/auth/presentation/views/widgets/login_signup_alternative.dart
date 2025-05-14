@@ -1,10 +1,10 @@
+import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_padding/app_padding.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/utils/app_router.dart';
 import 'package:finder/translations.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginAlternative extends StatelessWidget {
   const LoginAlternative({super.key});
@@ -15,7 +15,9 @@ class LoginAlternative extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            GoRouter.of(context).push(AppRouter.kForgotPassView);
+          },
           child: Text(
             AppLocalizations.of(context)!.forgotPassword,
             style: AppTextStyle.getRegularStyle(color: AppColors.primary),
@@ -31,7 +33,7 @@ class LoginAlternative extends StatelessWidget {
               style: AppTextStyle.getRegularStyle(
                   color: Theme.of(context).colorScheme.themedBlack),
             ),
-            SizedBox(
+            const SizedBox(
               width: AppPaddingSize.padding_6,
             ),
             InkWell(
@@ -62,9 +64,9 @@ class RegisterAlternative extends StatelessWidget {
           style: AppTextStyle.getRegularStyle(
               color: Theme.of(context).colorScheme.themedBlack),
         ),
-         SizedBox(
-              width: AppPaddingSize.padding_6,
-            ),
+        const SizedBox(
+          width: AppPaddingSize.padding_6,
+        ),
         InkWell(
           onTap: () {
             GoRouter.of(context).pop();
