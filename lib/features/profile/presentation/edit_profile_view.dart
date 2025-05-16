@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
+import 'package:finder/core/constant/app_string/app_strings.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   final _formKey = GlobalKey<FormState>();
 
   // Image picker placeholder
-  String _profileImageUrl = "https://via.placeholder.com/150";
+  // String _profileImageUrl = "https://via.placeholder.com/150";
   bool _isUploading = false;
 
   @override
@@ -108,13 +110,15 @@ class _EditProfileViewState extends State<EditProfileView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        // title: const Text('Edit Profile'),
         backgroundColor: AppColors.primary,
+        iconTheme: const IconThemeData(color: Colors.white),
         elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: _saveProfile,
+            color: AppColors.white,
             tooltip: 'Save Profile',
           ),
         ],
@@ -128,7 +132,12 @@ class _EditProfileViewState extends State<EditProfileView> {
               // Profile Picture Section
               Container(
                 width: double.infinity,
-                color: AppColors.primary,
+                decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(24),
+                      bottomRight: Radius.circular(24),
+                    )),
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: Column(
                   children: [
@@ -137,27 +146,33 @@ class _EditProfileViewState extends State<EditProfileView> {
                       alignment: Alignment.bottomRight,
                       children: [
                         // Profile Image
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 3,
+                        ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl: AppStrings.dummyProfileImageUrl,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey[300],
+                              child: _isUploading
+                                  ? const CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : null,
                             ),
-                            image: DecorationImage(
-                              image: NetworkImage(_profileImageUrl),
-                              fit: BoxFit.cover,
+                            errorWidget: (context, url, error) => Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey,
+                              child:
+                                  const Icon(Icons.error, color: Colors.white),
                             ),
                           ),
-                          child: _isUploading
-                              ? const CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white),
-                                )
-                              : null,
                         ),
+
                         // Edit Image Button
                         GestureDetector(
                           onTap: _pickImage,

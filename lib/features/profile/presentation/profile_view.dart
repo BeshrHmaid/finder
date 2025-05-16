@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
+import 'package:finder/core/constant/app_string/app_strings.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/ui/widgets/custom_button.dart';
@@ -45,8 +46,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     ClipOval(
                       child: CachedNetworkImage(
-                        imageUrl:
-                            'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+                        imageUrl: AppStrings.dummyProfileImageUrl,
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,

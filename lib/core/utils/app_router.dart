@@ -56,7 +56,7 @@ abstract class AppRouter {
         builder: (context, state) => const ProfileView(),
       ),
       GoRoute(
-        path: kProfileView,
+        path: kEditProfileView,
         builder: (context, state) => const EditProfileView(),
       ),
 
