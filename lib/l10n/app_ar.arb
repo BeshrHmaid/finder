@@ -57,5 +57,9 @@
   "posted": "منشور منذ",
   "views": "الآراء",
   "contact": "اتصال",
-  "million_ls": "مليون ل.س"
+  "million_ls": "مليون ل.س",
+  "phone_number": "رقم الجوال",
+  "confirmLogout": "تأكيد تسجيل الخروج",
+  "logout": "تسجيل الخروج",
+  "cancel": "إلغاء"
 }

@@ -4,6 +4,7 @@ import 'package:finder/features/auth/presentation/views/login_view.dart';
 import 'package:finder/features/auth/presentation/views/register_view.dart';
 import 'package:finder/features/auth/presentation/views/verify_otp_view.dart';
 import 'package:finder/features/onboarding/screens/root_onboarding.dart';
+import 'package:finder/features/profile/presentation/profile_view.dart';
 import 'package:finder/features/root_navigation_view/view/root_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,6 +17,7 @@ abstract class AppRouter {
   static const kOnBoard = '/onBoard';
   static const kForgotPassView = '/forgotPassView';
   static const kVerifyOtpView = '/verifyOtpView';
+  static const kProfileView = '/profileView';
 
   static final router = GoRouter(
     routes: [
@@ -46,6 +48,10 @@ abstract class AppRouter {
       GoRoute(
         path: kVerifyOtpView,
         builder: (context, state) => const OTPVerificationScreen(),
+      ),
+      GoRoute(
+        path: kProfileView,
+        builder: (context, state) => const ProfileView(),
       ),
 
       // GoRoute(

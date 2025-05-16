@@ -38,6 +38,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Logo
               Padding(
@@ -114,6 +115,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         // rowChild:  const Text('Send Verification Code'),
                       ),
                     ),
+                    SizedBox(height: 200.h),
                   ],
                 ),
               ),

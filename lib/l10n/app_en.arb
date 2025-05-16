@@ -57,5 +57,9 @@
   "posted": "Posted",
   "views": "Views",
   "contact": "Contact",
-  "million_ls": "Million L.S"
+  "million_ls": "Million L.S",
+  "phone_number": "Phone",
+  "confirmLogout": "Confirm logout",
+  "logout": "Logout",
+  "cancel": "Cancel"
 }

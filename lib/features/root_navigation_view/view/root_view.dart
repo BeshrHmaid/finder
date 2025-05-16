@@ -1,9 +1,9 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:finder/core/classes/cache_helper.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_images_icons/app_assets.dart';
 import 'package:finder/core/ui/widgets/action_alert_dialog.dart';
 import 'package:finder/features/home/presentation/home_view.dart';
+import 'package:finder/features/profile/presentation/profile_view.dart';
 import 'package:finder/features/root_navigation_view/data/cubit/root_page_cubit.dart';
 import 'package:finder/features/root_navigation_view/data/cubit/root_page_state.dart';
 import 'package:finder/translations.dart';
@@ -100,8 +100,8 @@ class RootView extends StatelessWidget {
       return const HomeView();
     else if (index == 3)
       return const HomeView();
-    else if (index == 4 && (CacheHelper.token?.isNotEmpty ?? false))
-      return const HomeView();
+    else if (index == 4) // && (CacheHelper.token?.isNotEmpty ?? false))
+      return const ProfileView();
     else
       return const HomeView();
   }
