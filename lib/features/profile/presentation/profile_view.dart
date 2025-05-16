@@ -1,12 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:finder/core/classes/cache_helper.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_string/app_strings.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
+import 'package:finder/core/ui/widgets/action_alert_dialog.dart';
 import 'package:finder/core/ui/widgets/custom_button.dart';
 import 'package:finder/core/utils/app_router.dart';
+import 'package:finder/features/root_navigation_view/data/cubit/root_page_cubit.dart';
+import 'package:finder/translations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -219,9 +224,16 @@ class _ProfileViewState extends State<ProfileView> {
               child: CustomButton(
                 onPressed: () {
                   // Logout functionality
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Logging out...')),
-                  );
+                  ActionAlertDialog.show(context,
+                      dialogTitle: AppLocalizations.of(context)!.confirmLogout,
+                      confirmText: AppLocalizations.of(context)!.logout,
+                      cancelText: AppLocalizations.of(context)!.cancel,
+                      onConfirm: () {
+                    Navigator.pop(context);
+                    CacheHelper.deleteCertificates();
+                    context.read<RootPageCubit>().changePageIndex(0);
+                    GoRouter.of(context).pushReplacement(AppRouter.kLoginView);
+                  });
                 },
                 color: AppColors.primary,
                 text: 'Logout',

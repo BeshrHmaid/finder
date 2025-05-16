@@ -22,13 +22,13 @@ class HomeViewHeader extends StatelessWidget {
           children: [
             SvgPicture.asset(
               Assets.iconsFinderLogo,
-              height: 24,
-              width: 24,
+              height: 32,
+              width: 32,
             ),
             Text(
               AppLocalizations.of(context)!.appName,
               style: AppTextStyle.getBoldStyle(
-                  color: AppColors.primary, fontSize: AppFontSize.size_16),
+                  color: AppColors.primary, fontSize: AppFontSize.size_24),
             )
           ],
         ),
@@ -45,10 +45,10 @@ class HomeViewHeader extends StatelessWidget {
                   color: AppColors.grey9D),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset(
-                  Assets.iconsMenu,
-                  height: 26,
-                  width: 26,
+                child: Icon(
+                  Icons.notifications_outlined,
+                  size: 26,
+                  color: AppColors.primary,
                 ),
               )),
         )
