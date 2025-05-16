@@ -3,6 +3,7 @@ import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_string/app_strings.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
+import 'package:finder/core/ui/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileView extends StatefulWidget {
@@ -497,23 +498,10 @@ class _EditProfileViewState extends State<EditProfileView> {
               // Save Button
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
+                child: CustomButton(
                   onPressed: _saveProfile,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    minimumSize: const Size(double.infinity, 50),
-                  ),
-                  child: const Text(
-                    'Save Profile',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  text: 'Save Profile',
+                  color: AppColors.primary,
                 ),
               ),
 
