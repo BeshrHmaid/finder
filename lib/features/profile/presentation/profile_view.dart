@@ -3,9 +3,11 @@ import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/ui/widgets/custom_button.dart';
+import 'package:finder/core/utils/app_router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -28,7 +30,12 @@ class _ProfileViewState extends State<ProfileView> {
           children: [
             // Profile header with user image
             Container(
-              color: const Color(0xff4C9F97),
+              decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(24),
+                    bottomRight: Radius.circular(24),
+                  )),
               padding: const EdgeInsets.only(bottom: 24.0),
               child: Center(
                 child: Column(
@@ -83,19 +90,20 @@ class _ProfileViewState extends State<ProfileView> {
                           child: CustomButton(
                             onPressed: () {
                               // Edit profile functionality
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text('Edit Profile button pressed')),
-                              );
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //       content:
+                              //           Text('Edit Profile button pressed')),
+                              // );
+                              GoRouter.of(context)
+                                  .push(AppRouter.kEditProfileView);
                             },
                             text: '',
                             color: AppColors.white,
                             rowChild: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.edit,
-                                    color: Color(0xff4C9F97)),
+                                Icon(Icons.edit, color: AppColors.primary),
                                 const SizedBox(
                                   width: 10,
                                 ),
@@ -237,7 +245,7 @@ class _ProfileViewState extends State<ProfileView> {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            Icon(icon, color: const Color(0xff4C9F97), size: 28),
+            Icon(icon, color: AppColors.primary, size: 28),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -304,7 +312,7 @@ class _ProfileViewState extends State<ProfileView> {
             Switch(
               value: initialValue,
               onChanged: onChanged,
-              activeColor: const Color(0xff4C9F97),
+              activeColor: AppColors.primary,
             ),
           ],
         ),
