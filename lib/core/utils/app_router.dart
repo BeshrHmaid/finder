@@ -2,6 +2,7 @@ import 'package:finder/core/ui/screens/splash_screen.dart';
 import 'package:finder/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:finder/features/auth/presentation/views/login_view.dart';
 import 'package:finder/features/auth/presentation/views/register_view.dart';
+import 'package:finder/features/auth/presentation/views/reset_password_view.dart';
 import 'package:finder/features/auth/presentation/views/verify_otp_view.dart';
 import 'package:finder/features/onboarding/screens/root_onboarding.dart';
 import 'package:finder/features/profile/presentation/edit_profile_view.dart';
@@ -20,6 +21,7 @@ abstract class AppRouter {
   static const kVerifyOtpView = '/verifyOtpView';
   static const kProfileView = '/profileView';
   static const kEditProfileView = '/editProfileView';
+  static const kResetPasswordView = '/resetPasswordView';
 
   static final router = GoRouter(
     routes: [
@@ -58,6 +60,10 @@ abstract class AppRouter {
       GoRoute(
         path: kEditProfileView,
         builder: (context, state) => const EditProfileView(),
+      ),
+      GoRoute(
+        path: kForgotPassView,
+        builder: (context, state) => const ResetPasswordView(),
       ),
 
       // GoRoute(
