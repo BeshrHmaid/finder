@@ -106,6 +106,7 @@ class _PredictHousePricePageState extends State<PredictHousePricePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const HomeViewHeader(
+                headerTitle: 'Predict your house price',
                 isPredictPage: true,
               ),
               const SizedBox(

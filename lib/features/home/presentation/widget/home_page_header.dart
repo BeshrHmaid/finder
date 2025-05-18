@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeViewHeader extends StatelessWidget {
-  const HomeViewHeader({super.key, this.isPredictPage = false});
+  const HomeViewHeader(
+      {super.key, this.isPredictPage = false, this.headerTitle});
   final bool? isPredictPage;
+  final String? headerTitle;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -26,7 +28,7 @@ class HomeViewHeader extends StatelessWidget {
               ),
             Text(
               isPredictPage ?? false
-                  ? 'Predict your house price'
+                  ? headerTitle ?? ''
                   : AppLocalizations.of(context)!.appName,
               style: AppTextStyle.getBoldStyle(
                   color: AppColors.primary, fontSize: AppFontSize.size_24),
