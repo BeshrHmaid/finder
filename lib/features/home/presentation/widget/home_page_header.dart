@@ -7,10 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeViewHeader extends StatelessWidget {
-  const HomeViewHeader({
-    super.key,
-  });
-
+  const HomeViewHeader({super.key, this.isPredictPage = false});
+  final bool? isPredictPage;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -20,38 +18,42 @@ class HomeViewHeader extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgPicture.asset(
-              Assets.iconsFinderLogo,
-              height: 32,
-              width: 32,
-            ),
+            if (!isPredictPage!)
+              SvgPicture.asset(
+                Assets.iconsFinderLogo,
+                height: 32,
+                width: 32,
+              ),
             Text(
-              AppLocalizations.of(context)!.appName,
+              isPredictPage ?? false
+                  ? 'Predict your house price'
+                  : AppLocalizations.of(context)!.appName,
               style: AppTextStyle.getBoldStyle(
                   color: AppColors.primary, fontSize: AppFontSize.size_24),
             )
           ],
         ),
-        InkWell(
-          borderRadius: const BorderRadius.all(Radius.circular(50)),
-          onTap: () {},
-          focusColor: AppColors.grey72,
-          splashColor: AppColors.grey72,
-          child: Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
+        if (!isPredictPage!)
+          InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(50)),
+            onTap: () {},
+            focusColor: AppColors.grey72,
+            splashColor: AppColors.grey72,
+            child: Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                    color: AppColors.grey9D),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.notifications_outlined,
+                    size: 26,
+                    color: AppColors.primary,
                   ),
-                  color: AppColors.grey9D),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.notifications_outlined,
-                  size: 26,
-                  color: AppColors.primary,
-                ),
-              )),
-        )
+                )),
+          )
       ],
     );
   }

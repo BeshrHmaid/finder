@@ -13,6 +13,26 @@ extension AppColors on ColorScheme {
   static Color darkSecondaryColor = const Color(0xff2A2C3E);
   static Color darkAccentColor = const Color(0xff56A4FB);
   static Color darkSubHeadingColor1 = const Color(0xDDF2F1F6);
+// Background colors for dark theme
+  static const Color background = Color(0xFF121212);
+  static const Color cardBackground = Color(0xFF1E1E1E);
+  static const Color secondaryBackground = Color(0xFF2C2C2C);
+
+  // Text colors for dark theme
+  static const Color primaryText = Colors.white;
+  static const Color secondaryText = Color(0xFFB3B3B3);
+  static const Color hintText = Color(0xFF8A8A8A);
+
+  // Accent colors
+  static const Color accent = Color(0xFF64B5F6);
+  static const Color error = Color(0xFFCF6679);
+  static const Color success = Color(0xFF4CAF50);
+  static const Color warning = Color(0xFFFFC107);
+
+  // Credibility score colors
+  static const Color highCredibility = Color(0xFF4CAF50);
+  static const Color mediumCredibility = Color(0xFFFFC107);
+  static const Color lowCredibility = Color(0xFFCF6679);
 
   // when switch color
   Color get blackColor => brightness == Brightness.light

@@ -5,6 +5,7 @@ import 'package:finder/features/auth/presentation/views/register_view.dart';
 import 'package:finder/features/auth/presentation/views/reset_password_view.dart';
 import 'package:finder/features/auth/presentation/views/verify_otp_view.dart';
 import 'package:finder/features/onboarding/screens/root_onboarding.dart';
+import 'package:finder/features/price_predication/presentation/views/predict_house_price_view.dart';
 import 'package:finder/features/profile/presentation/edit_profile_view.dart';
 import 'package:finder/features/profile/presentation/profile_view.dart';
 import 'package:finder/features/root_navigation_view/view/root_view.dart';
@@ -22,6 +23,7 @@ abstract class AppRouter {
   static const kProfileView = '/profileView';
   static const kEditProfileView = '/editProfileView';
   static const kResetPasswordView = '/resetPasswordView';
+  static const kPredictHousePriceView = '/predictHousePriceView';
 
   static final router = GoRouter(
     routes: [
@@ -64,6 +66,10 @@ abstract class AppRouter {
       GoRoute(
         path: kForgotPassView,
         builder: (context, state) => const ResetPasswordView(),
+      ),
+      GoRoute(
+        path: kPredictHousePriceView,
+        builder: (context, state) => const PredictHousePricePage(),
       ),
 
       // GoRoute(
