@@ -8,6 +8,7 @@ import 'package:finder/features/onboarding/screens/root_onboarding.dart';
 import 'package:finder/features/price_predication/presentation/views/predict_house_price_view.dart';
 import 'package:finder/features/profile/presentation/edit_profile_view.dart';
 import 'package:finder/features/profile/presentation/profile_view.dart';
+import 'package:finder/features/profile/presentation/rentvsbuy_page.dart';
 import 'package:finder/features/root_navigation_view/view/root_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,6 +25,7 @@ abstract class AppRouter {
   static const kEditProfileView = '/editProfileView';
   static const kResetPasswordView = '/resetPasswordView';
   static const kPredictHousePriceView = '/predictHousePriceView';
+  static const kRentvsBuy = '/rentVsBuy';
 
   static final router = GoRouter(
     routes: [
@@ -70,6 +72,10 @@ abstract class AppRouter {
       GoRoute(
         path: kPredictHousePriceView,
         builder: (context, state) => const PredictHousePricePage(),
+      ),
+      GoRoute(
+        path: kRentvsBuy,
+        builder: (context, state) => const BuyVsRentCalculatorPage(),
       ),
 
       // GoRoute(

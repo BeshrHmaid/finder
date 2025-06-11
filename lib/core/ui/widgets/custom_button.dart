@@ -62,8 +62,7 @@ class CustomButton extends StatelessWidget {
                         text!,
                         style: textStyle ??
                             AppTextStyle.getMediumStyle(
-                              color:
-                                  Theme.of(context).colorScheme.themedWhite,
+                              color: Theme.of(context).colorScheme.themedWhite,
                               fontSize: AppFontSize.size_16,
                             ),
                         textAlign: (rowChild != null)

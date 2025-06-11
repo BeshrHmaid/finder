@@ -5,25 +5,19 @@ import 'package:finder/features/auth/data/model/login_model/login_model.dart';
 import 'package:finder/features/auth/data/repository/auth_repository.dart';
 
 class RegisterParams extends BaseParams {
-  String? email;
+  String? username;
   String? password;
   String? confirmedPassword;
-  String? userName;
-  String? role;
+  String? phone;
 
   RegisterParams(
-      {this.email,
-      this.password,
-      this.confirmedPassword,
-      this.role,
-      this.userName});
+      {this.username, this.password, this.confirmedPassword, this.phone});
 
   toJson() {
     return {
-      "email": email?.trim(),
+      "username": username?.trim(),
       "password": password?.trim(),
-      "name": userName?.trim(),
-      "role": role
+      "phoneNumber": phone?.trim(),
     };
   }
 }

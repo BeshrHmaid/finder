@@ -83,7 +83,8 @@ class CustomTextFormField extends StatelessWidget {
         keyboardType: keyboardType,
         style: textStyle ??
             AppTextStyle.getMediumStyle(
-                color: Theme.of(context).colorScheme.themedBlack, fontSize: AppFontSize.size_14),
+                color: Theme.of(context).colorScheme.themedBlack,
+                fontSize: AppFontSize.size_14),
         obscureText: isObscure,
         controller: controller,
         cursorColor: Colors.deepOrange,
@@ -92,7 +93,10 @@ class CustomTextFormField extends StatelessWidget {
             contentPadding: EdgeInsets.only(left: 15, top: paddingTop ?? 0),
             hintStyle: hintStyle ??
                 AppTextStyle.getMediumStyle(
-                    color: Theme.of(context).colorScheme.themedBlack.withOpacity(0.8),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .themedBlack
+                        .withOpacity(0.8),
                     fontSize: AppFontSize.size_12),
             hintText: hintText,
             prefixIcon: prefixIcon,

@@ -6,6 +6,7 @@ import 'package:finder/features/home/presentation/manager/home_cubit/home_cubit.
 import 'package:finder/features/language/cubit/language_cubit.dart';
 import 'package:finder/features/language/cubit/language_states.dart';
 import 'package:finder/features/onboarding/cubit/onboarding_cubit.dart';
+import 'package:finder/features/profile/cubit/profile_cubit.dart';
 import 'package:finder/features/root_navigation_view/data/cubit/root_page_cubit.dart';
 import 'package:finder/firebase_options.dart';
 import 'package:finder/translations.dart';
@@ -42,6 +43,7 @@ class Finder extends StatelessWidget {
         BlocProvider(create: (context) => getIt<LanguageCubit>()),
         BlocProvider(create: (context) => getIt<OnBoardingCubit>()),
         BlocProvider(create: (context) => getIt<RootPageCubit>()),
+        BlocProvider(create: (context) => getIt<ProfileCubit>()),
         BlocProvider(create: (context) => getIt<AuthCubit>()),
         BlocProvider(create: (context) => getIt<HomeCubit>()),
       ],

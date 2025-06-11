@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
+import 'package:finder/features/add_ad/data/add_ad_repository.dart';
+import 'package:finder/features/add_ad/data/usecase/add_ad_usecase.dart';
+import 'package:finder/features/add_ad/presentation/cubit/add_property_cubit.dart';
 import 'package:finder/features/home/presentation/widget/home_page_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPropertyAdScreen extends StatefulWidget {
   const AddPropertyAdScreen({Key? key}) : super(key: key);
@@ -13,43 +19,22 @@ class AddPropertyAdScreen extends StatefulWidget {
 }
 
 class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
-  // Form key for validation
   final _formKey = GlobalKey<FormState>();
-
-  // Property images
-  final List<String> _propertyImages = [];
-
-  // Basic details
+  final List<File> _propertyImages = []; // Changed to List<File>
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   String _propertyFor = 'Rent';
-
-  // Property features
   int _bedrooms = 1;
   int _bathrooms = 1;
   final _areaController = TextEditingController();
   String _propertyType = 'Apartment';
   String _furnishing = 'Furnished';
-
-  // Location
   final _addressController = TextEditingController();
   final _cityController = TextEditingController();
   final _zipCodeController = TextEditingController();
-
-  // Contact information
-  final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-
-  // Ad settings
-  DateTime _availabilityDate = DateTime.now().add(const Duration(days: 1));
-  bool _highlightAd = false;
-
-  // Current active step in the stepper
   int _currentStep = 0;
 
-  // Lists for dropdowns
   final List<String> _propertyTypes = [
     'Apartment',
     'House',
@@ -69,7 +54,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
 
   @override
   void dispose() {
-    // Dispose all controllers
     _titleController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
@@ -77,22 +61,48 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
     _addressController.dispose();
     _cityController.dispose();
     _zipCodeController.dispose();
-    _nameController.dispose();
-    _phoneController.dispose();
-    _emailController.dispose();
     super.dispose();
   }
 
-  // Method to add an image
-  void _addImage(String imageUrl) {
-    if (_propertyImages.length < 5) {
-      setState(() {
-        _propertyImages.add(imageUrl);
-      });
-    } else {
+  // Method to pick an image from gallery or camera
+  Future<void> _pickImage() async {
+    if (_propertyImages.length >= 5) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Maximum 5 images allowed')),
       );
+      return;
+    }
+
+    final ImagePicker picker = ImagePicker();
+    final source = await showDialog<ImageSource>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Select Image Source'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, ImageSource.camera),
+            child: const Text('Camera'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, ImageSource.gallery),
+            child: const Text('Gallery'),
+          ),
+        ],
+      ),
+    );
+
+    if (source != null) {
+      final XFile? image = await picker.pickImage(source: source);
+      if (image != null) {
+        setState(() {
+          _propertyImages.add(File(image.path));
+        });
+        // Update Cubit
+        context.read<AddPropertyCubit>().params =
+            context.read<AddPropertyCubit>().params.copyWith(
+                  pics: _propertyImages,
+                );
+      }
     }
   }
 
@@ -101,90 +111,75 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
     setState(() {
       _propertyImages.removeAt(index);
     });
-  }
-
-  // Method to select availability date
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _availabilityDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: AppColors.primary,
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (picked != null && picked != _availabilityDate) {
-      setState(() {
-        _availabilityDate = picked;
-      });
-    }
+    // Update Cubit
+    context.read<AddPropertyCubit>().params =
+        context.read<AddPropertyCubit>().params.copyWith(
+              pics: _propertyImages,
+            );
   }
 
   // Method to submit the form
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // In a real app, this would save the data to a database or API
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Property ad submitted successfully!'),
-          backgroundColor: AppColors.primary,
-        ),
-      );
+      // Update Cubit with all form data
+      context.read<AddPropertyCubit>().params =
+          context.read<AddPropertyCubit>().params.copyWith(
+                title: _titleController.text,
+                description: _descriptionController.text,
+                price: double.tryParse(_priceController.text),
+                location: '${_addressController.text}, ${_cityController.text}',
+                pics: _propertyImages,
+                listingType: _propertyFor.toLowerCase(),
+              );
+      final x = await AddAdUsecase(addAdRepository: AddAdRepository())
+          .call(params: context.read<AddPropertyCubit>().params);
+      if (x.hasDataOnly) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Property ad submitted successfully!'),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      } else if (x.hasErrorOnly) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                const Text('Something went wronge ,please try again later'),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      }
+      // In a real app, trigger Cubit to submit data
 
       // Clear the form
-      _propertyImages.clear();
-      _titleController.clear();
-      _descriptionController.clear();
-      _priceController.clear();
-      _propertyFor = 'Rent';
-      _bedrooms = 1;
-      _bathrooms = 1;
-      _areaController.clear();
-      _propertyType = 'Apartment';
-      _furnishing = 'Furnished';
-      _addressController.clear();
-      _cityController.clear();
-      _zipCodeController.clear();
-      _nameController.clear();
-      _phoneController.clear();
-      _emailController.clear();
-      _availabilityDate = DateTime.now().add(const Duration(days: 1));
-      _highlightAd = false;
-
-      // Reset stepper
       setState(() {
+        _propertyImages.clear();
+        _titleController.clear();
+        _descriptionController.clear();
+        _priceController.clear();
+        _propertyFor = 'Rent';
+        _bedrooms = 1;
+        _bathrooms = 1;
+        _areaController.clear();
+        _propertyType = 'Apartment';
+        _furnishing = 'Furnished';
+        _addressController.clear();
+        _cityController.clear();
+        _zipCodeController.clear();
         _currentStep = 0;
       });
+
+      // Clear Cubit pics
+      context.read<AddPropertyCubit>().params =
+          context.read<AddPropertyCubit>().params.copyWith(
+        pics: [],
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Scaffold(
-        //   backgroundColor: Colors.white,
-        //   appBar: AppBar(
-        //     title:  Text(
-        //       "Add Property Ad",
-        //       style: TextStyle(color: AppColors.primary),
-        //     ),
-        //     backgroundColor: Colors.white,
-        //     elevation: 0,
-        //     iconTheme:  IconThemeData(color: AppColors.primary),
-        //   ),
-        // body:
-        SingleChildScrollView(
+    return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
           horizontal: AppFontSize.size_12, vertical: AppFontSize.size_12),
       child: Column(
@@ -280,11 +275,7 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                         child: _propertyImages.isEmpty
                             ? Center(
                                 child: TextButton.icon(
-                                  onPressed: () {
-                                    // For demo, we'll just add a placeholder image
-                                    _addImage(
-                                        'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=');
-                                  },
+                                  onPressed: _pickImage,
                                   icon: Icon(Icons.add_photo_alternate,
                                       color: AppColors.primary),
                                   label: Text(
@@ -306,10 +297,7 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                                       padding:
                                           const EdgeInsets.only(right: 8.0),
                                       child: InkWell(
-                                        onTap: () {
-                                          _addImage(
-                                              'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=');
-                                        },
+                                        onTap: _pickImage,
                                         child: Container(
                                           width: 100,
                                           decoration: BoxDecoration(
@@ -339,7 +327,7 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             image: DecorationImage(
-                                              image: NetworkImage(
+                                              image: FileImage(
                                                   _propertyImages[index]),
                                               fit: BoxFit.cover,
                                             ),
@@ -393,7 +381,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title
                       TextFormField(
                         controller: _titleController,
                         decoration: InputDecoration(
@@ -418,8 +405,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                         },
                       ),
                       const SizedBox(height: 16),
-
-                      // Description
                       TextFormField(
                         controller: _descriptionController,
                         decoration: InputDecoration(
@@ -445,8 +430,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                         },
                       ),
                       const SizedBox(height: 16),
-
-                      // Price
                       TextFormField(
                         controller: _priceController,
                         decoration: InputDecoration(
@@ -475,14 +458,11 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                         },
                       ),
                       const SizedBox(height: 16),
-
-                      // Property For (Rent/Buy)
                       Row(
                         children: [
                           const Text('This property is for:'),
                           const SizedBox(width: 16),
                           Expanded(
-                            // flex: 3,
                             child: SegmentedButton<String>(
                               showSelectedIcon: false,
                               segments: const [
@@ -539,7 +519,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Bedrooms and Bathrooms
                       Row(
                         children: [
                           Expanded(
@@ -568,8 +547,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                         ],
                       ),
                       const SizedBox(height: 16),
-
-                      // Area
                       TextFormField(
                         controller: _areaController,
                         decoration: InputDecoration(
@@ -598,8 +575,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                         },
                       ),
                       const SizedBox(height: 16),
-
-                      // Property Type
                       DropdownButtonFormField<String>(
                         value: _propertyType,
                         decoration: InputDecoration(
@@ -630,8 +605,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                         },
                       ),
                       const SizedBox(height: 16),
-
-                      // Furnishing
                       DropdownButtonFormField<String>(
                         value: _furnishing,
                         decoration: InputDecoration(
@@ -676,7 +649,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Address
                         TextFormField(
                           controller: _addressController,
                           decoration: InputDecoration(
@@ -701,8 +673,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
-
-                        // City and Zip Code
                         Row(
                           children: [
                             Expanded(
@@ -730,127 +700,7 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                                 },
                               ),
                             ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                controller: _zipCodeController,
-                                decoration: InputDecoration(
-                                  labelText: 'Zip Code',
-                                  prefixIcon:
-                                      Icon(Icons.pin, color: AppColors.primary),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                        color: AppColors.primary, width: 2),
-                                  ),
-                                ),
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter zip code';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
                           ],
-                        ),
-                        const SizedBox(height: 24),
-
-                        const Text(
-                          'Contact Information',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Name
-                        TextFormField(
-                          controller: _nameController,
-                          decoration: InputDecoration(
-                            labelText: 'Name',
-                            prefixIcon:
-                                Icon(Icons.person, color: AppColors.primary),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: AppColors.primary, width: 2),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your name';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Phone
-                        TextFormField(
-                          controller: _phoneController,
-                          decoration: InputDecoration(
-                            labelText: 'Phone Number',
-                            prefixIcon:
-                                Icon(Icons.phone, color: AppColors.primary),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: AppColors.primary, width: 2),
-                            ),
-                          ),
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your phone number';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Email
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            labelText: 'Email Address',
-                            prefixIcon:
-                                Icon(Icons.email, color: AppColors.primary),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: AppColors.primary, width: 2),
-                            ),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            if (!value.contains('@') || !value.contains('.')) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null;
-                          },
                         ),
                       ],
                     ),
@@ -867,52 +717,7 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Availability Date
-                      InkWell(
-                        onTap: () => _selectDate(context),
-                        child: InputDecorator(
-                          decoration: InputDecoration(
-                            labelText: 'Availability Date',
-                            prefixIcon: Icon(Icons.calendar_today,
-                                color: AppColors.primary),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                DateFormat('MMM dd, yyyy')
-                                    .format(_availabilityDate),
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              const Icon(Icons.arrow_drop_down,
-                                  color: Colors.grey),
-                            ],
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 20),
-
-                      // Highlight Ad
-                      SwitchListTile(
-                        title: const Text('Highlight Ad'),
-                        subtitle: const Text(
-                            'Make your ad stand out in search results'),
-                        value: _highlightAd,
-                        activeColor: AppColors.primary,
-                        contentPadding: EdgeInsets.zero,
-                        onChanged: (value) {
-                          setState(() {
-                            _highlightAd = value;
-                          });
-                        },
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Terms and Conditions
                       Row(
                         children: [
                           Checkbox(
@@ -936,7 +741,6 @@ class _AddPropertyAdScreenState extends State<AddPropertyAdScreen> {
                 ),
               ],
             ),
-            // ),
           ),
         ],
       ),

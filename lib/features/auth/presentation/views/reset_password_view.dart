@@ -11,8 +11,9 @@ class ResetPasswordView extends StatefulWidget {
 class _ResetPasswordViewState extends State<ResetPasswordView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
-  
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _isSubmitting = false;
@@ -20,7 +21,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   int _currentHintIndex = 0;
   int _passwordStrength = 0;
   String _strengthFeedback = '';
-  
+
   // Password hints
   final List<String> _hints = [
     'Try creating a password based on a memorable game character plus numbers and special characters.',
@@ -45,11 +46,11 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
 
   void _updatePasswordStrength() {
     final password = _passwordController.text;
-    
+
     // Simple password strength calculation
     int strength = 0;
     String feedback = '';
-    
+
     if (password.isEmpty) {
       setState(() {
         _passwordStrength = 0;
@@ -57,7 +58,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       });
       return;
     }
-    
+
     // Check length
     if (password.length >= 8) {
       strength++;
@@ -69,7 +70,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       });
       return;
     }
-    
+
     // Check for uppercase letters
     if (RegExp(r'[A-Z]').hasMatch(password)) {
       strength++;
@@ -81,7 +82,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       });
       return;
     }
-    
+
     // Check for lowercase letters
     if (RegExp(r'[a-z]').hasMatch(password)) {
       strength++;
@@ -93,7 +94,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       });
       return;
     }
-    
+
     // Check for numbers
     if (RegExp(r'[0-9]').hasMatch(password)) {
       strength++;
@@ -105,7 +106,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       });
       return;
     }
-    
+
     // Check for special characters
     if (RegExp(r'[^A-Za-z0-9]').hasMatch(password)) {
       strength++;
@@ -117,7 +118,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       });
       return;
     }
-    
+
     // Set feedback based on final strength
     if (strength <= 2) {
       feedback = 'Your password could be stronger';
@@ -126,7 +127,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     } else {
       feedback = 'Excellent password!';
     }
-    
+
     setState(() {
       _passwordStrength = strength;
       _strengthFeedback = feedback;
@@ -150,21 +151,21 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       setState(() {
         _isSubmitting = true;
       });
-      
+
       // Simulate API call with delay
       await Future.delayed(const Duration(seconds: 2));
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Password reset successfully!'),
           backgroundColor: Colors.green,
         ),
       );
-      
+
       setState(() {
         _isSubmitting = false;
       });
-      
+
       // In a real app, you would navigate to the next screen
     }
   }
@@ -172,11 +173,12 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   void _skipReset() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Password reset skipped. You can reset it later from settings.'),
+        content: Text(
+            'Password reset skipped. You can reset it later from settings.'),
         backgroundColor: Colors.blue,
       ),
     );
-    
+
     // In a real app, you would navigate to the next screen
   }
 
@@ -222,7 +224,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           hintText: 'Enter your new password',
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: Colors.white60,
                             ),
                             onPressed: () {
@@ -269,12 +273,15 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           hintText: 'Confirm your new password',
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: Colors.white60,
                             ),
                             onPressed: () {
                               setState(() {
-                                _obscureConfirmPassword = !_obscureConfirmPassword;
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
                               });
                             },
                           ),
@@ -343,7 +350,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Password Challenge Hint',
@@ -359,7 +367,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                       style: TextButton.styleFrom(
                                         padding: EdgeInsets.zero,
                                         minimumSize: const Size(50, 30),
-                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
                                       ),
                                     ),
                                 ],

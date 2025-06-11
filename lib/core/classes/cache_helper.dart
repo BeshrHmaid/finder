@@ -1,14 +1,14 @@
+import 'package:finder/core/constant/end_points/cashe_helper_constant.dart';
 import 'package:finder/features/auth/data/model/login_model/login_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:finder/core/constant/end_points/cashe_helper_constant.dart';
 
 class CacheHelper {
   static late Box<dynamic> box;
 
   static init() async {
     await Hive.initFlutter();
-    // Hive.registerAdapter(LoginModelAdapter());
-    
+    Hive.registerAdapter(LoginModelAdapter());
+
     box = await Hive.openBox("default_box");
   }
 
@@ -45,7 +45,7 @@ class CacheHelper {
   static void deleteCertificates() {
     setToken(null);
     setUserId(null);
-    // setUserInfo(null);
+    setUserInfo(null);
     setBalance(null);
   }
 }

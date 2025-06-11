@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'onboarding_state.dart';
 
-
 class OnBoardingCubit extends Cubit<OnBoardingStates> {
   OnBoardingCubit() : super(OnBoardingInitialState());
   PageController? _pageController;
@@ -22,8 +21,7 @@ class OnBoardingCubit extends Cubit<OnBoardingStates> {
 
   @override
   Future<void> close() {
-    _pageController
-        ?.dispose();
+    _pageController?.dispose();
     return super.close();
   }
 }

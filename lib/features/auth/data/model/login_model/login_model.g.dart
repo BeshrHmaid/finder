@@ -17,22 +17,25 @@ class LoginModelAdapter extends TypeAdapter<LoginModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return LoginModel(
-      token: fields[0] as String?,
-      expiresAt: fields[1] as int?,
-      user: fields[2] as User?,
+      username: fields[0] as String?,
+      phoneNumber: fields[1] as String?,
+      balance: fields[2] as int?,
+      jwtToken: fields[3] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, LoginModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.token)
+      ..write(obj.username)
       ..writeByte(1)
-      ..write(obj.expiresAt)
+      ..write(obj.phoneNumber)
       ..writeByte(2)
-      ..write(obj.user);
+      ..write(obj.balance)
+      ..writeByte(3)
+      ..write(obj.jwtToken);
   }
 
   @override

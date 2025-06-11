@@ -31,7 +31,7 @@ class BackWidget extends StatelessWidget {
               child: const Icon(
                 Icons.arrow_back_ios_new_rounded,
               )),
-            const  Spacer(),
+        const Spacer(),
         titleWidget != null
             ? titleWidget!
             : Expanded(
@@ -41,10 +41,11 @@ class BackWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: AppTextStyle.getMediumStyle(
-                      color: Theme.of(context).colorScheme.themedBlack, fontSize: AppFontSize.size_26),
+                      color: Theme.of(context).colorScheme.themedBlack,
+                      fontSize: AppFontSize.size_26),
                 ),
               ),
-         const Spacer(),
+        const Spacer(),
         if (endWidget != null) endWidget!,
       ],
     );

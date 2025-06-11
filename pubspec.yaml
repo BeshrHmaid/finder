@@ -59,6 +59,9 @@ dependencies:
   convex_bottom_bar: ^3.2.0
   cached_network_image: ^3.4.1
   shimmer: ^3.0.0
+  image_picker: ^1.1.2
+  dio_smart_retry: ^7.0.1
+  logger: ^2.5.0
 
 
 dev_dependencies:

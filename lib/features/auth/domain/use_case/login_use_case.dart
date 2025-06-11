@@ -11,7 +11,7 @@ class LoginParams extends BaseParams {
   LoginParams({this.email, this.password});
 
   toJson() {
-    return {"email": email?.trim(), "password": password?.trim()};
+    return {"username": email?.trim(), "password": password?.trim()};
   }
 }
 

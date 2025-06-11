@@ -144,7 +144,8 @@ class ActionAlertDialog extends StatelessWidget {
                   message!,
                   textAlign: TextAlign.center,
                   style: AppTextStyle.getMediumStyle(
-                      color: Theme.of(context).colorScheme.themedBlack, fontSize: AppFontSize.size_12),
+                      color: Theme.of(context).colorScheme.themedBlack,
+                      fontSize: AppFontSize.size_12),
                 ),
               ),
             const SizedBox(height: AppPaddingSize.padding_25),
@@ -173,7 +174,8 @@ class ActionAlertDialog extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: buttonStyle ??
                             AppTextStyle.getMediumStyle(
-                                color: Theme.of(context).colorScheme.themedBlack,
+                                color:
+                                    Theme.of(context).colorScheme.themedBlack,
                                 fontSize: AppFontSize.size_14),
                       ),
                     ),

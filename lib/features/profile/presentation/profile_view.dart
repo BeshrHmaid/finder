@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finder/core/classes/cache_helper.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
-import 'package:finder/core/constant/app_string/app_strings.dart';
 import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/ui/widgets/action_alert_dialog.dart';
@@ -9,7 +7,6 @@ import 'package:finder/core/ui/widgets/custom_button.dart';
 import 'package:finder/core/utils/app_router.dart';
 import 'package:finder/features/root_navigation_view/data/cubit/root_page_cubit.dart';
 import 'package:finder/translations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,9 +21,9 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   // Sample user data - in a real app this would come from a database or API
-  final String userName = "John Doe";
-  final String userEmail = "john.doe@example.com";
-  final String userPhone = "+1 (555) 123-4567";
+  // final String userName = "John Doe";
+  // final String userEmail = "john.doe@example.com";
+  // final String userPhone = "+1 (555) 123-4567";
 
   @override
   Widget build(BuildContext context) {
@@ -49,30 +46,30 @@ class _ProfileViewState extends State<ProfileView> {
                     SizedBox(
                       height: 60.h,
                     ),
-                    ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl: AppStrings.dummyProfileImageUrl,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Container(
-                          width: 100,
-                          height: 100,
-                          color: Colors.grey[300],
-                          child:
-                              const Center(child: CupertinoActivityIndicator()),
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          width: 100,
-                          height: 100,
-                          color: Colors.grey,
-                          child: const Icon(Icons.error, color: Colors.white),
-                        ),
-                      ),
-                    ),
+                    // ClipOval(
+                    //   child: CachedNetworkImage(
+                    //     imageUrl: AppStrings.dummyProfileImageUrl,
+                    //     width: 100,
+                    //     height: 100,
+                    //     fit: BoxFit.cover,
+                    //     placeholder: (context, url) => Container(
+                    //       width: 100,
+                    //       height: 100,
+                    //       color: Colors.grey[300],
+                    //       child:
+                    //           const Center(child: CupertinoActivityIndicator()),
+                    //     ),
+                    //     errorWidget: (context, url, error) => Container(
+                    //       width: 100,
+                    //       height: 100,
+                    //       color: Colors.grey,
+                    //       child: const Icon(Icons.error, color: Colors.white),
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(height: 16),
                     Text(
-                      userName,
+                      CacheHelper.userInfo?.username ?? 'No name',
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -80,14 +77,14 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      userEmail,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                    // Text(
+                    //   userEmail,
+                    //   style: const TextStyle(
+                    //     fontSize: 16,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 20),
                     Row(
                       children: [
                         const Expanded(flex: 1, child: SizedBox()),
@@ -146,12 +143,44 @@ class _ProfileViewState extends State<ProfileView> {
             ),
 
             // Information Cards
-            _buildInfoCard(Icons.person, 'Full Name', userName),
-            _buildInfoCard(Icons.email, 'Email', userEmail),
-            _buildInfoCard(Icons.phone, 'Phone', userPhone),
-            _buildInfoCard(Icons.location_on, 'Location', 'New York, USA'),
+            _buildInfoCard(Icons.person, 'Full Name',
+                CacheHelper.userInfo?.username ?? ''),
+            // _buildInfoCard(Icons.email, 'Email', userEmail),
+            _buildInfoCard(
+                Icons.phone, 'Phone', CacheHelper.userInfo?.phoneNumber ?? ''),
+            // _buildInfoCard(Icons.location_on, 'Location', 'New York, USA'),
 
             // Preferences Section
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Actions',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                GoRouter.of(context).push(AppRouter.kRentvsBuy);
+              },
+              child: _buildActionCard(
+                'Rent Vs Buy',
+                'evaluate the financial implications of choosing between renting and buying a house',
+                true,
+                (value) {
+                  // Handle toggle
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Property Notifications: $value')),
+                  );
+                },
+              ),
+            ),
+
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Align(
@@ -325,6 +354,44 @@ class _ProfileViewState extends State<ProfileView> {
               value: initialValue,
               onChanged: onChanged,
               activeColor: AppColors.primary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionCard(String title, String subtitle, bool initialValue,
+      Function(bool) onChanged) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

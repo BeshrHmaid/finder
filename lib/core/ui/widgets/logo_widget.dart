@@ -1,6 +1,7 @@
 import 'package:finder/core/constant/app_images_icons/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 class LogoWidget extends StatelessWidget {
   final double? height;
   final double? width;
