@@ -4,6 +4,8 @@ import 'package:finder/features/auth/presentation/views/login_view.dart';
 import 'package:finder/features/auth/presentation/views/register_view.dart';
 import 'package:finder/features/auth/presentation/views/reset_password_view.dart';
 import 'package:finder/features/auth/presentation/views/verify_otp_view.dart';
+import 'package:finder/features/home/integration/house_model/house_model.dart';
+import 'package:finder/features/home/presentation/widget/house_details_view.dart';
 import 'package:finder/features/onboarding/screens/root_onboarding.dart';
 import 'package:finder/features/price_predication/presentation/views/predict_house_price_view.dart';
 import 'package:finder/features/profile/morg_page.dart';
@@ -11,6 +13,7 @@ import 'package:finder/features/profile/presentation/edit_profile_view.dart';
 import 'package:finder/features/profile/presentation/profile_view.dart';
 import 'package:finder/features/profile/presentation/rentvsbuy_page.dart';
 import 'package:finder/features/root_navigation_view/view/root_view.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class AppRouter {
@@ -28,6 +31,7 @@ abstract class AppRouter {
   static const kPredictHousePriceView = '/predictHousePriceView';
   static const kRentvsBuy = '/rentVsBuy';
   static const kMortgageCalculator = '/morgi';
+  static const kHouseDetailes = '/houseDetails';
 
   static final router = GoRouter(
     routes: [
@@ -83,16 +87,15 @@ abstract class AppRouter {
         path: kMortgageCalculator,
         builder: (context, state) => const MortgageCalculatorPage(),
       ),
-
-      // GoRoute(
-      //   path: kPostDetailsView,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     final post = state.extra as PostModel;
-      //     return PostDetailsView(
-      //       post: post,
-      //     );
-      //   },
-      // ),
+      GoRoute(
+        path: kHouseDetailes,
+        builder: (BuildContext context, GoRouterState state) {
+          final house = state.extra as HouseModel;
+          return HouseDetailsPage(
+            houseModel: house,
+          );
+        },
+      ),
     ],
   );
 }

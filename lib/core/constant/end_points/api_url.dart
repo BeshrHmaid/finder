@@ -7,3 +7,4 @@ const addAdUrl = '$baseUrl/social';
 const rentVsBuyUrl = '$baseUrl/api/analysis/analyze';
 const morgUrl = '$baseUrl/api/mortgage/calculate';
 const housesUrl = '$baseUrl/api/houses';
+// const oneHouseUrl = '$baseUrl/api/houses';
