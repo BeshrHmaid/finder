@@ -10,3 +10,9 @@ final class ProfileUpdateParams extends ProfileState {
 
   ProfileUpdateParams({required this.newParams});
 }
+
+final class ProfileMUpdateParams extends ProfileState {
+  final MorgParams newParams;
+
+  ProfileMUpdateParams({required this.newParams});
+}

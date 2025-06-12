@@ -1,3 +1,4 @@
+import 'package:finder/core/boilerplate/get_model/widgets/get_model.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_images_icons/app_assets.dart';
 import 'package:finder/core/constant/app_padding/app_padding.dart';
@@ -5,6 +6,8 @@ import 'package:finder/core/constant/text_styles/app_text_style.dart';
 import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/ui/widgets/custom_button.dart';
 import 'package:finder/core/ui/widgets/custom_text_form_field.dart';
+import 'package:finder/features/home/integration/house_model/house_model.dart';
+import 'package:finder/features/home/integration/integration.dart';
 import 'package:finder/features/home/presentation/manager/home_cubit/home_cubit.dart';
 import 'package:finder/features/home/presentation/widget/filter_options.dart';
 import 'package:finder/features/home/presentation/widget/home_page_header.dart';
@@ -29,80 +32,93 @@ class HomeView extends StatelessWidget {
     //     final choiseIndex = state is HomeUpdated ? state.choiseIndex : 0;
     //     print('the current index is $choiseIndex');
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: AppFontSize.size_12, vertical: AppFontSize.size_12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const HomeViewHeader(),
-            const SizedBox(
-              height: AppPaddingSize.padding_14,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 5,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: AppFontSize.size_12, vertical: AppFontSize.size_12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const HomeViewHeader(),
+          const SizedBox(
+            height: AppPaddingSize.padding_14,
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 5,
+                child: Card(
+                  elevation: 3,
+                  child: CustomTextFormField(
+                    borderColor: AppColors.primary,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset(
+                        Assets.iconsMagnifier,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.search,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    //on pressed show the scaffold filtering widget
+                    _showFilterBottomSheet(context);
+                  },
                   child: Card(
                     elevation: 3,
-                    child: CustomTextFormField(
-                      borderColor: AppColors.primary,
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          Assets.iconsMagnifier,
-                          color: AppColors.primary,
-                        ),
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        color: AppColors.primary,
                       ),
-                      hintText: AppLocalizations.of(context)!.search,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(Assets.iconsFilter),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      //on pressed show the scaffold filtering widget
-                      _showFilterBottomSheet(context);
-                    },
-                    child: Card(
-                      elevation: 3,
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(12)),
-                          color: AppColors.primary,
+              )
+            ],
+          ),
+          const SizedBox(
+            height: AppPaddingSize.padding_14,
+          ),
+          FilterOptions(
+              filterKey1: _filterKey1,
+              filterKey2: _filterKey2,
+              filterKey3: _filterKey3),
+          const SizedBox(
+            height: AppPaddingSize.padding_14,
+          ),
+          Expanded(
+            child: GetModel(
+              useCaseCallBack: () {
+                return GetHousesUseCase(homeRepository: HomeRepository())
+                    .call(params: GetHouseParams());
+              },
+              modelBuilder: (ListHouseModel houses) {
+                return ListView.separated(
+                    itemBuilder: (context, index) => RealEstateCard(
+                          houseModel: houses.data[index],
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(Assets.iconsFilter),
-                          ],
+                    separatorBuilder: (_, __) => const SizedBox(
+                          height: 5,
                         ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
+                    itemCount: houses.data.length);
+              },
+              // onError: ,
             ),
-            const SizedBox(
-              height: AppPaddingSize.padding_14,
-            ),
-            FilterOptions(
-                filterKey1: _filterKey1,
-                filterKey2: _filterKey2,
-                filterKey3: _filterKey3),
-            const SizedBox(
-              height: AppPaddingSize.padding_14,
-            ),
-            const RealEstateCard(),
-            const RealEstateCard(),
-            const RealEstateCard(),
-            const RealEstateCard(),
-          ],
-        ),
+          )
+        ],
       ),
     );
     //   },

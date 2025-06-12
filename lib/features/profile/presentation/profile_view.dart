@@ -166,6 +166,22 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             GestureDetector(
               onTap: () {
+                GoRouter.of(context).push(
+                    AppRouter.kMortgageCalculator); // Adjust route as needed
+              },
+              child: _buildActionCard(
+                'Mortgage Calculator',
+                'Calculate your monthly mortgage payments based on property price, down payment, interest rate, and loan term',
+                true,
+                (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Mortgage Notifications: $value')),
+                  );
+                },
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
                 GoRouter.of(context).push(AppRouter.kRentvsBuy);
               },
               child: _buildActionCard(

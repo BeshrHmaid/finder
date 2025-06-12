@@ -6,6 +6,8 @@ import 'package:finder/core/params/base_params.dart';
 import 'package:finder/core/repository/core_repository.dart';
 import 'package:finder/core/results/result.dart';
 import 'package:finder/core/usecase/usecase.dart';
+import 'package:finder/features/profile/monthly_payment.dart';
+import 'package:finder/features/profile/morg_params.dart';
 import 'package:finder/features/profile/rent_vs_buy_model.dart';
 
 class RentVsBuyParams extends BaseParams {
@@ -74,6 +76,16 @@ class ProfileRepository extends CoreRepository {
         converter: (json) => RentVsBuyModel.fromJson(json['data']),
         method: HttpMethod.POST,
         url: rentVsBuyUrl);
+    return call(result: result);
+  }
+
+  Future<Result<MonthlyPayment>> morgCalc(MorgParams params) async {
+    final result = await RemoteDataSource.request(
+        responseStr: 'dss',
+        data: params.toJson(),
+        converter: (json) => RentVsBuyModel.fromJson(json['data']),
+        method: HttpMethod.POST,
+        url: morgUrl);
     return call(result: result);
   }
 }

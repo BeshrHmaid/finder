@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/ui/widgets/base_hens_state_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../constant/text_styles/app_text_style.dart';
 import '../../constant/text_styles/font_size.dart';
@@ -31,8 +31,8 @@ class GeneralErrorWidget extends StatelessWidget {
           style: AppTextStyle.getRegularStyle(
               color: AppColors.grey9A, fontSize: AppFontSize.size_16)),
       // buttonText: AppLocalizations.of(context)!.try_again,
-      buttonText: "",
-      image: 'error image',
+      buttonText: "try again",
+      // image: 'error image',
       onTap: onTap,
       description: '',
     );
