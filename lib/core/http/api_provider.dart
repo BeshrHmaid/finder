@@ -196,7 +196,7 @@ class ApiProvider {
       response = await _executeRequest(
         method,
         url,
-        file == null ? data : FormData.fromMap(dataMap),
+        fileKey == null ? data : FormData.fromMap(dataMap),
         queryParameters,
         cancelToken,
       );

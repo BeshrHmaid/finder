@@ -6,6 +6,7 @@ import 'package:finder/core/params/base_params.dart';
 import 'package:finder/core/results/result.dart';
 import 'package:finder/core/usecase/usecase.dart';
 import 'package:finder/features/add_ad/data/add_ad_repository.dart';
+import 'package:finder/features/home/integration/house_model/house_model.dart';
 
 class AddAdParams extends BaseParams {
   String? title;
@@ -47,20 +48,20 @@ class AddAdParams extends BaseParams {
       'description': description,
       'price': price,
       'location': location,
-      'listingType': listingType,
+      'listingType': 'for-$listingType',
     };
   }
 
   String toJson() => json.encode(toMap());
 }
 
-class AddAdUsecase extends UseCase<String, AddAdParams> {
+class AddAdUsecase extends UseCase<HouseModel, AddAdParams> {
   final AddAdRepository addAdRepository;
   AddAdUsecase({
     required this.addAdRepository,
   });
   @override
-  Future<Result<String>> call({required AddAdParams params}) {
+  Future<Result<HouseModel>> call({required AddAdParams params}) {
     return addAdRepository.addAd(params: params);
   }
 }
