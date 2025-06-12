@@ -3,6 +3,7 @@ import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_images_icons/app_assets.dart';
 import 'package:finder/core/ui/widgets/action_alert_dialog.dart';
 import 'package:finder/features/add_ad/presentation/view/add_property_ad_view.dart';
+import 'package:finder/features/home/house_on_map.dart';
 import 'package:finder/features/home/presentation/home_view.dart';
 import 'package:finder/features/price_predication/presentation/views/predict_house_price_view.dart';
 import 'package:finder/features/profile/presentation/profile_view.dart';
@@ -101,8 +102,8 @@ class RootView extends StatelessWidget {
     else if (index == 2)
       return const AddPropertyAdScreen();
     else if (index == 3)
-      return const HomeView();
-    else if (index == 4) // && (CacheHelper.token?.isNotEmpty ?? false))
+      return const CustomMapView();
+    else if (index == 4)
       return const ProfileView();
     else
       return const HomeView();
