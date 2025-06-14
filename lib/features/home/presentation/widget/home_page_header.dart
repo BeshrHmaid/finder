@@ -35,27 +35,27 @@ class HomeViewHeader extends StatelessWidget {
             )
           ],
         ),
-        if (!isPredictPage!)
-          InkWell(
-            borderRadius: const BorderRadius.all(Radius.circular(50)),
-            onTap: () {},
-            focusColor: AppColors.grey72,
-            splashColor: AppColors.grey72,
-            child: Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: AppColors.grey9D),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.notifications_outlined,
-                    size: 26,
-                    color: AppColors.primary,
-                  ),
-                )),
-          )
+        // if (!isPredictPage!)
+        //   InkWell(
+        //     borderRadius: const BorderRadius.all(Radius.circular(50)),
+        //     onTap: () {},
+        //     focusColor: AppColors.grey72,
+        //     splashColor: AppColors.grey72,
+        //     child: Container(
+        //         decoration: const BoxDecoration(
+        //             borderRadius: BorderRadius.all(
+        //               Radius.circular(50),
+        //             ),
+        //             color: AppColors.grey9D),
+        //         child: Padding(
+        //           padding: const EdgeInsets.all(8.0),
+        //           child: Icon(
+        //             Icons.notifications_outlined,
+        //             size: 26,
+        //             color: AppColors.primary,
+        //           ),
+        //         )),
+        //   )
       ],
     );
   }

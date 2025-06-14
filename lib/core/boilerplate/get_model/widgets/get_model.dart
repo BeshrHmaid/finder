@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:finder/core/constant/app_colors/app_colors.dart';
+import 'package:finder/core/ui/widgets/general_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:finder/core/ui/widgets/general_error_widget.dart';
 
 import '../cubits/get_model_cubit.dart';
 
@@ -68,10 +68,13 @@ class _GetModelState<Model> extends State<GetModel<Model>> {
                   ? widget.loading
                   : Center(
                       child: widget.loading ??
-                          const Center(
+                          Center(
                               child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 0),
-                                  child: CupertinoActivityIndicator()))));
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 0),
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.primary,
+                                  )))));
         } else {
           if (state is GetModelSuccessfully) {
             return buildModel(state.model);

@@ -83,7 +83,7 @@ class ProfileRepository extends CoreRepository {
     final result = await RemoteDataSource.request(
         responseStr: 'dss',
         data: params.toJson(),
-        converter: (json) => RentVsBuyModel.fromJson(json['data']),
+        converter: (json) => MonthlyPayment.fromJson(json['data']),
         method: HttpMethod.POST,
         url: morgUrl);
     return call(result: result);

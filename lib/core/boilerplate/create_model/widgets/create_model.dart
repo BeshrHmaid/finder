@@ -1,5 +1,5 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,10 +66,12 @@ class _GetModelState<Model> extends State<CreateModel<Model>> {
             return widget.loadingWidget ??
                 SizedBox(
                     height: widget.loadingHeight ?? 50.h,
-                    child: const Center(
+                    child: Center(
                         child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 0),
-                            child: CupertinoActivityIndicator())));
+                            padding: const EdgeInsets.symmetric(vertical: 0),
+                            child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            ))));
           } else {
             return InkWell(
                 onTap: () {

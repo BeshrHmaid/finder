@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/ui/widgets/general_error_widget.dart';
 import 'package:finder/core/ui/widgets/no_data_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../cubits/pagination_cubit.dart';
 import 'footer.dart';
@@ -86,7 +87,10 @@ class _PaginationListState<Model> extends State<PaginationList<Model>> {
         builder: (context, state) {
           if (state is Loading) {
             return widget.loadingWidget ??
-                const Center(child: CupertinoActivityIndicator());
+                Center(
+                    child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                ));
           } else if (state is GetListSuccessfully) {
             return smartRefresher(state.list as List<Model>);
           } else if (state is Error) {

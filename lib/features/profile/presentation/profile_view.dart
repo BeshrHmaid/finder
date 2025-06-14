@@ -1,7 +1,5 @@
 import 'package:finder/core/classes/cache_helper.dart';
 import 'package:finder/core/constant/app_colors/app_colors.dart';
-import 'package:finder/core/constant/text_styles/app_text_style.dart';
-import 'package:finder/core/constant/text_styles/font_size.dart';
 import 'package:finder/core/ui/widgets/action_alert_dialog.dart';
 import 'package:finder/core/ui/widgets/custom_button.dart';
 import 'package:finder/core/utils/app_router.dart';
@@ -85,43 +83,43 @@ class _ProfileViewState extends State<ProfileView> {
                     //   ),
                     // ),
                     // const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          child: CustomButton(
-                            onPressed: () {
-                              // Edit profile functionality
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   const SnackBar(
-                              //       content:
-                              //           Text('Edit Profile button pressed')),
-                              // );
-                              GoRouter.of(context)
-                                  .push(AppRouter.kEditProfileView);
-                            },
-                            text: '',
-                            color: AppColors.white,
-                            rowChild: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.edit, color: AppColors.primary),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  'Edit Profile',
-                                  style: AppTextStyle.getMediumStyle(
-                                      color: AppColors.primary,
-                                      fontSize: AppFontSize.size_16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Expanded(flex: 1, child: SizedBox()),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Expanded(flex: 1, child: SizedBox()),
+                    //     Expanded(
+                    //       child: CustomButton(
+                    //         onPressed: () {
+                    //           // Edit profile functionality
+                    //           // ScaffoldMessenger.of(context).showSnackBar(
+                    //           //   const SnackBar(
+                    //           //       content:
+                    //           //           Text('Edit Profile button pressed')),
+                    //           // );
+                    //           GoRouter.of(context)
+                    //               .push(AppRouter.kEditProfileView);
+                    //         },
+                    //         text: '',
+                    //         color: AppColors.white,
+                    //         rowChild: Row(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: [
+                    //             Icon(Icons.edit, color: AppColors.primary),
+                    //             const SizedBox(
+                    //               width: 10,
+                    //             ),
+                    //             Text(
+                    //               'Edit Profile',
+                    //               style: AppTextStyle.getMediumStyle(
+                    //                   color: AppColors.primary,
+                    //                   fontSize: AppFontSize.size_16),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     const Expanded(flex: 1, child: SizedBox()),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

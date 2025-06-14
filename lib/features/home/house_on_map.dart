@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:finder/core/boilerplate/get_model/widgets/get_model.dart';
+import 'package:finder/core/constant/app_colors/app_colors.dart';
 import 'package:finder/core/constant/app_images_icons/app_assets.dart';
 import 'package:finder/core/constant/end_points/api_url.dart';
 import 'package:finder/core/data_source/remote_data_source.dart';
@@ -153,7 +154,10 @@ class _CustomMapViewState extends State<CustomMapView> {
         body: Stack(
           children: [
             _currentPosition == null
-                ? const Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ))
                 : GetModel(
                     useCaseCallBack: () {
                       return GetMapHouseUsecase(
@@ -167,7 +171,10 @@ class _CustomMapViewState extends State<CustomMapView> {
                       );
                     },
                     onError: () => const Text('Something went wronge'),
-                    loading: const Center(child: CircularProgressIndicator()),
+                    loading: Center(
+                        child: CircularProgressIndicator(
+                      color: AppColors.primary,
+                    )),
                     errorWidget: const Text('Something went wronge'),
                     onSuccess: (ListHouseModel houses) {
                       _markers.clear();
